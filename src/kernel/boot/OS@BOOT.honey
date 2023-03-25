@@ -1,0 +1,21 @@
+\\ INSTRUCTION F@ \\
+
+@lib "@/kernel/tecu/lib.honey";
+@lib "@/kernel/tecu/boot/boot.honey";
+
+tecu.enterBootMode(true);
+tecu.setDefualtOSUser(new tecu.User("@/usr/root/user.honey"));
+
+Event e = new Event(tecu.bootCompleteEvent, () -> {
+    tecu.bb.setScreen(new tecu.ui.screen("Xi OS is booting...", "Please wait..", () -> {
+        tecu.bb.setScreen(new tecu.ui.screen1("Version 1.0.0", "Welcome to Xi OS", "Press any key to continue"));
+        Event e1 = new Event(tecu.keyPressEvent, () -> {
+            tecu.enterUserProf();
+        });
+    }));
+});
+
+Event e2 = new Event(tecu.loginCompleteEvent, () -> {
+    tecu.enterDesktop();
+    tecu.boot("@/usr/" + tecu.getCurrentUser() + "/desktop.honey");
+});

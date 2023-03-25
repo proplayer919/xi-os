@@ -1,0 +1,15 @@
+@lib "./tecu/lib.honey";
+@lib "./tecu/boot/boot.honey";
+
+public class boot {
+    BIOS bios = new tecu.BIOS();
+    CompInterface comp = new tecu.CompInterface(bios);
+    BOOTMANAGER bootmanager = new tecu.BOOTMANAGER(comp);
+
+    public static void main() {
+        comp.initOS();
+        comp.initBIOS();
+        // Execute OS@BOOT executable
+        bootmanager.execOS("./boot/OS@BOOT.honey");
+    }
+}
