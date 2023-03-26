@@ -1,0 +1,19 @@
+\\ INSTRUCTION F@ \\
+
+@lib "@/kernel/tecu/lib.honey";
+@lib "@/kernel/tecu/boot/boot.honey";
+@lib "@/kernel/tecu/user/user.honey";
+
+tecu.setUserProfile("root");
+
+Event e = new Event(tecu.userGoDesktopEvent, () -> {
+    tecu.event.explorerLoad(() -> {
+        tecu.explorer.taskbarLoad();
+        tecu.explorer.desktopLoad();
+        tecu.explorer.wallpaperLoad();
+
+        Event e1 = new Event(tecu.explorer.desktopLoadEvent, () -> {
+            tecu.exec.run("C:\\usr\\root\\programs\\welcome\\welcome.dyp");
+        });
+    });
+});
